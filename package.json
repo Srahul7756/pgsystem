@@ -19,6 +19,7 @@
     "async-mutex": "^0.5.0",
     "axios": "^1.10.0",
     "babel-plugin-module-resolver": "^5.0.2",
+    "jetifier": "^2.0.0",
     "jwt-decode": "^4.0.0",
     "plop": "^4.0.1",
     "react": "19.0.0",
