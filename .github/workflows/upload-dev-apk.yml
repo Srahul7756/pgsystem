@@ -75,12 +75,18 @@ jobs:
       - name: Rename APK
         run: mv android/app/build/outputs/apk/release/app-release.apk android/app/build/outputs/apk/release/main-Stage-${VERSION_NAME}.apk
 
+      # 🔹 Set up Firebase credentials from JSON secret
+      - name: Set up Google Service Account
+        run: |
+          echo "${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_JSON }}" > $HOME/gcp-key.json
+          echo "GOOGLE_APPLICATION_CREDENTIALS=$HOME/gcp-key.json" >> $GITHUB_ENV
+
       # 🔹 Upload to Firebase App Distribution
       - name: Upload APK to Firebase App Distribution
         uses: wzieba/Firebase-Distribution-Github-Action@v1
         with:
           appId: ${{ secrets.FIREBASE_APP_ID }}
-          token: ${{ secrets.FIREBASE_TOKEN }}
+          serviceCredentialsFile: ${{ env.GOOGLE_APPLICATION_CREDENTIALS }}
           groups: testers
           file: android/app/build/outputs/apk/release/main-Stage-${{ env.VERSION_NAME }}.apk
           releaseNotes: "Automated build from branch main, version ${{ env.VERSION_NAME }}"
