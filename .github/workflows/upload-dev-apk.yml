@@ -84,11 +84,3 @@ jobs:
           groups: testers
           file: android/app/build/outputs/apk/release/main-Stage-${{ env.VERSION_NAME }}.apk
           releaseNotes: "Automated build from branch main, version ${{ env.VERSION_NAME }}"
-
-      - name: Notify Microsoft Teams
-        uses: freezer00/teams-webhook-action@v1.4.1
-        with:
-          webhook_url: ${{ secrets.MS_TEAMS_WEBHOOK_URI }}
-          title: 'A new APK build (Version: **${{ env.VERSION_NAME }}**) is available on Firebase App Distribution.'
-          hide_facts: false
-          dry_run: false
