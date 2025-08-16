@@ -26,7 +26,6 @@ export default function AddProperty() {
   const navigation = useNavigation();
   const insets = useSafeAreaInsets();
 
-  // Form state for property details
   const [propertyData, setPropertyData] = useState({
     // Property Details
     propertyName: '',
