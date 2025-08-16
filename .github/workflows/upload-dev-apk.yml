@@ -3,7 +3,7 @@ name: Upload APK to Firebase Distribution
 on:
   push:
     branches:
-      - XLNC-Dev
+      - main
 
 jobs:
   build-and-deploy:
@@ -73,7 +73,7 @@ jobs:
         run: echo "VERSION_NAME=$(grep 'versionName' android/app/build.gradle | awk '{print $2}' | tr -d '\"')" >> $GITHUB_ENV
 
       - name: Rename APK
-        run: mv android/app/build/outputs/apk/release/app-release.apk android/app/build/outputs/apk/release/XLNC-Dev-Stage-${VERSION_NAME}.apk
+        run: mv android/app/build/outputs/apk/release/app-release.apk android/app/build/outputs/apk/release/main-Stage-${VERSION_NAME}.apk
 
       # 🔹 Upload to Firebase App Distribution
       - name: Upload APK to Firebase App Distribution
@@ -82,8 +82,8 @@ jobs:
           appId: ${{ secrets.FIREBASE_APP_ID }}
           token: ${{ secrets.FIREBASE_TOKEN }}
           groups: testers
-          file: android/app/build/outputs/apk/release/XLNC-Dev-Stage-${{ env.VERSION_NAME }}.apk
-          releaseNotes: "Automated build from branch XLNC-Dev, version ${{ env.VERSION_NAME }}"
+          file: android/app/build/outputs/apk/release/main-Stage-${{ env.VERSION_NAME }}.apk
+          releaseNotes: "Automated build from branch main, version ${{ env.VERSION_NAME }}"
 
       - name: Notify Microsoft Teams
         uses: freezer00/teams-webhook-action@v1.4.1
