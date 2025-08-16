@@ -2,7 +2,6 @@ import {
   ScrollView,
   View,
   TouchableOpacity,
-  Alert,
   TextInput,
   SafeAreaView,
   StatusBar,
@@ -10,7 +9,6 @@ import {
 import React, { useState } from "react";
 import { TextView } from "../components/TextView";
 import { useTheme } from "../theme/useTheme";
-import { Wrapper } from "../components/Wrapper";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import { Spacer } from "@components/Spacer";
