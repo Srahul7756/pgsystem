@@ -78,8 +78,8 @@ jobs:
       # 🔹 Set up Firebase credentials from JSON secret
       - name: Set up Google Service Account
         run: |
-          echo "${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_JSON }}" > $HOME/gcp-key.json
-          echo "GOOGLE_APPLICATION_CREDENTIALS=$HOME/gcp-key.json" >> $GITHUB_ENV
+          echo '${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_JSON }}' > ${{ github.workspace }}/gcp-key.json
+          echo "GOOGLE_APPLICATION_CREDENTIALS=${{ github.workspace }}/gcp-key.json" >> $GITHUB_ENV
 
       # 🔹 Upload to Firebase App Distribution
       - name: Upload APK to Firebase App Distribution
@@ -87,6 +87,5 @@ jobs:
         with:
           appId: ${{ secrets.FIREBASE_APP_ID }}
           serviceCredentialsFile: ${{ env.GOOGLE_APPLICATION_CREDENTIALS }}
-          groups: testers
           file: android/app/build/outputs/apk/release/main-Stage-${{ env.VERSION_NAME }}.apk
           releaseNotes: "Automated build from branch main, version ${{ env.VERSION_NAME }}"
