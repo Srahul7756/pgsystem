@@ -1,0 +1,31 @@
+{
+  "compilerOptions": {
+    "jsx": "react",
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "baseUrl": "./",
+    "paths": {
+      "@assets/*": ["src/assets/*"],
+      "@components/*": ["src/components/*"],
+      "@constants/*": ["src/constants/*"],
+      "@hooks/*": ["src/hooks/*"],
+      "@pages/*": ["src/pages/*"],
+      "@routes/*": ["src/routes/*"],
+      "@services/*": ["src/services/*"],
+      "@shared/*": ["src/shared/*"],
+      "@store/*": ["src/store/*"],
+      "@theme/*": ["src/theme/*"],
+      "@types/*": ["src/types/*"],
+      "@utils/*": ["src/utils/*"],
+      "@componentTypes/*": ["src/types/componentTypes/*"],
+      "@moduleTypes/*": ["src/types/moduleTypes/*"],
+      "@serviceTypes/*": ["src/types/serviceTypes/*"],
+      "@reduxTypes/*": ["src/types/reduxTypes/*"],
+      "@requestTypes/*": ["src/types/requestTypes/*"]
+    }
+  },
+  "include": ["src/**/*", "custom.d.ts", "styled.d.ts"],
+  "exclude": ["node_modules"]
+}

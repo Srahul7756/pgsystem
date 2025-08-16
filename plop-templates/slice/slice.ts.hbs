@@ -1,0 +1,36 @@
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { RootState } from '../../store';
+
+interface {{camelCase name}}State {
+  // Define your state properties here
+  value: number;
+}
+
+const initialState: {{camelCase name}}State = {
+  value: 0,
+};
+
+export const {{camelCase name}}Slice = createSlice({
+  name: '{{camelCase name}}',
+  initialState,
+  reducers: {
+    increment: (state) => {
+      state.value += 1;
+    },
+    decrement: (state) => {
+      state.value -= 1;
+    },
+    setValue: (state, action: PayloadAction<number>) => {
+      state.value = action.payload;
+    },
+  },
+});
+
+// Export the actions as named exports
+export const { increment, decrement, setValue } = {{camelCase name}}Slice.actions;
+
+// Selector function (assuming your root state has a property named after the slice)
+export const select{{pascalCase name}} = (state: RootState) => state.{{camelCase name}};
+
+// Export the reducer as a named export
+export const {{camelCase name}}Reducer = {{camelCase name}}Slice.reducer;

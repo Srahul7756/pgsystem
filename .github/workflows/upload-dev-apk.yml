@@ -1,0 +1,94 @@
+name: Upload APK to Firebase Distribution
+
+on:
+  push:
+    branches:
+      - XLNC-Dev
+
+jobs:
+  build-and-deploy:
+    runs-on: macos-14
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Create .env file
+        run: |
+          echo REACT_APP_NAME=${{ secrets.REACT_APP_NAME }} >> .env
+          echo REACT_APP_THEME=${{ secrets.REACT_APP_THEME }} >> .env
+          echo REACT_APP_BASE_URL=${{ secrets.REACT_APP_BASE_URL }} >> .env
+          echo REACT_APP_ENCRYPTION_IV=${{ secrets.REACT_APP_ENCRYPTION_IV }} >> .env
+          echo REACT_APP_ENCRYPTION_KEY=${{ secrets.REACT_APP_ENCRYPTION_KEY }} >> .env
+          echo REACT_APP_BANNER_SCROLL_SPEED=${{ secrets.REACT_APP_BANNER_SCROLL_SPEED }} >> .env
+          echo REACT_APP_BRAND_NAME=${{ secrets.REACT_APP_BRAND_NAME }} >> .env
+          echo REACT_APP_MERCHANDISE_URL=${{ secrets.REACT_APP_MERCHANDISE_URL }} >> .env
+          echo REACT_APP_WEB_TIMEOUT=${{ secrets.REACT_APP_WEB_TIMEOUT }} >> .env
+
+      - name: Cache Node Modules
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: npm-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          restore-keys: npm-${{ runner.os }}-
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: Install Dependencies
+        run: npm ci --legacy-peer-deps
+
+      - name: Run Jetifier
+        run: npx jetify
+
+      - name: Cache Gradle Wrapper
+        uses: actions/cache@v4
+        with:
+          path: ~/.gradle/wrapper
+          key: gradle-wrapper-${{ runner.os }}-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+
+      - name: Cache Gradle Dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.gradle/caches
+          key: gradle-cache-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: gradle-cache-${{ runner.os }}-
+
+      - name: Set up JDK 11 (Faster)
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '11'
+
+      - name: Make Gradlew Executable
+        run: chmod +x ./android/gradlew
+
+      - name: Build Android Release Build (Optimized)
+        run: cd android && ./gradlew assembleRelease --no-daemon --parallel --build-cache --configure-on-demand --max-workers=4
+
+      - name: Extract Version Name
+        id: get_version
+        run: echo "VERSION_NAME=$(grep 'versionName' android/app/build.gradle | awk '{print $2}' | tr -d '\"')" >> $GITHUB_ENV
+
+      - name: Rename APK
+        run: mv android/app/build/outputs/apk/release/app-release.apk android/app/build/outputs/apk/release/XLNC-Dev-Stage-${VERSION_NAME}.apk
+
+      # 🔹 Upload to Firebase App Distribution
+      - name: Upload APK to Firebase App Distribution
+        uses: wzieba/Firebase-Distribution-Github-Action@v1
+        with:
+          appId: ${{ secrets.FIREBASE_APP_ID }}
+          token: ${{ secrets.FIREBASE_TOKEN }}
+          groups: testers
+          file: android/app/build/outputs/apk/release/XLNC-Dev-Stage-${{ env.VERSION_NAME }}.apk
+          releaseNotes: "Automated build from branch XLNC-Dev, version ${{ env.VERSION_NAME }}"
+
+      - name: Notify Microsoft Teams
+        uses: freezer00/teams-webhook-action@v1.4.1
+        with:
+          webhook_url: ${{ secrets.MS_TEAMS_WEBHOOK_URI }}
+          title: 'A new APK build (Version: **${{ env.VERSION_NAME }}**) is available on Firebase App Distribution.'
+          hide_facts: false
+          dry_run: false

@@ -1,0 +1,61 @@
+export const UpiTransactionHistoryStatus = {
+  CREDITED: 'credited',
+  DEBITED: 'debited',
+  REJECTED: 'rejected',
+  PENDING: 'pending',
+  FAILED: 'failed',
+  SUCCESS: 'success',
+};
+
+export const NotificationSettingsType = {
+  INAPP: 'inApp',
+  EMAIL: 'email',
+  PUSH: 'push',
+};
+
+export const AutoPayStatus = {
+  ACTIVE: 'ACTIVE',
+  INACTIVE: 'INACTIVE',
+};
+
+export const StaticString = {
+  YouName: 'Your Name',
+  YouNamePlaceholder: 'Enter your name',
+  YouEmail: 'Your Email',
+  YouEmailPlaceholder: 'Enter your email',
+  Gender: "Gender",
+  DateOfBirth: "Date of Birth",
+  DateOfBirthPlaceholder: "DD/MM/YYYY",
+  BirthPlace: "Birth Place",
+  BirthPlacePlaceholder: "Enter your birth place",
+  Gotra: "Gotra",
+  GotraPlaceholder: "Select your gotra",
+  Optional: "Optional",
+  Occupation: "Occupation",
+  OccupationPlaceholder: "Select your occupation",
+  Continue: "Continue",
+  Male: "Male",
+  Female: "Female",
+  Other: "Other",
+  UserRegistrationResponse: "User created successfully",
+  UserID: "user_id",
+  RegistrationFailed: "Registration failed",
+  InvalidAge: "Invalid age",
+  AgeYears: "Age must be at least 15 years",
+  RegistrationSuccessful: "Registration Successful",
+  ThankYouforChoosingMandirSetu: " Thank you for choosing Mandir Setu",
+  GoToLoginPage: "Go to Login Page",
+  GoToHomePage: "Go to Home page",
+  Close: "Close",
+  EnterYourNumber: "Enter your number",
+  TermsConditions: "Terms & Conditions",
+  ByproceedingMandirSetu: "By proceeding, you agree to Mandir Setu’s",
+  PrivacyPolicy: "Privacy Policy",
+  GetOTP: "Get OTP",
+  InvalidOTP: "Invalid OTP",
+  EnterOTP: "Enter OTP",
+  EnterOTPSentto: "Enter OTP sent to",
+  ChangeMobile: "Change Mobile Number",
+  ResendOTP: "Resend OTP",
+  VerifyOTP: "Verify OTP",
+}
