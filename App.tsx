@@ -20,7 +20,6 @@ export default function App() {
   return (
      <Fragment>
         <SafeAreaProvider>
-              {/* <AutocompleteDropdownContextProvider> */}
                 <Routes initialRoute={HOME} />
                 {/*{openDialog && (
                 //   <BlurView
