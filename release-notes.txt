@@ -1,0 +1,4 @@
+🔥 New Release v1.2.3
+- Fixed login crash on Android 14
+- Improved transaction history speed
+- UI updates on the dashboard

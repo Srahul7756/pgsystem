@@ -4,6 +4,11 @@ on:
   push:
     branches:
       - main
+    paths:
+      - "android/**"
+      - "package.json"
+      - "yarn.lock"
+      - "release-notes.txt"
 
 jobs:
   build-and-deploy:
@@ -86,6 +91,7 @@ jobs:
         uses: wzieba/Firebase-Distribution-Github-Action@v1
         with:
           appId: ${{ secrets.FIREBASE_APP_ID }}
-          serviceCredentialsFile: ${{ env.GOOGLE_APPLICATION_CREDENTIALS }}
+          serviceCredentialsFileContent: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_JSON }}
+          groups: testers
           file: android/app/build/outputs/apk/release/main-Stage-${{ env.VERSION_NAME }}.apk
-          releaseNotes: "Automated build from branch main, version ${{ env.VERSION_NAME }}"
+          releaseNotesFile: release-notes.txt
